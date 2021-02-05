@@ -21,25 +21,25 @@
         <div class="collapse navbar-collapse" id="navbarcollapseCMS">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a href="MyProfile.php" class="nav-link"> <i class="fas fa-user text-success"></i> My Profile</a>
+                    <a href="MyProfile.php" class="nav-link"> <i class="fas fa-user text-success"></i> Mój profil</a>
                 </li>
                 <li class="nav-item">
                     <a href="Dashboard.php" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Posts.php" class="nav-link">Posts</a>
+                    <a href="Posts.php" class="nav-link">Posty</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Categories.php" class="nav-link">Categories</a>
+                    <a href="Categories.php" class="nav-link">Kategorie</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Admins.php" class="nav-link">Manage Admins</a>
+                    <a href="Admins.php" class="nav-link">Administracja</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Comments.php" class="nav-link">Comments</a>
+                    <a href="Comments.php" class="nav-link">Komentarze</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Blog.php?page=1" class="nav-link" target="_blank">Live Blog</a>
+                    <a href="Blog.php?page=1" class="nav-link" target="_blank">Blog</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -56,13 +56,28 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1><i class="fas fa-text-height" style="color:#27aae1;"></i> Basic</h1>
+                <h1><i class="fas fa-edit" style="color:#27aae1;"></i> Kategorie</h1>
             </div>
         </div>
     </div>
 </header>
 <!-- HEADER END -->
-<br>
+<section class="container py-2 mb-4">
+    <div class="row" style="min-height: 50px; background: red;">
+        <div class="offset-lg-1 col-lg-10" style="min-height: 50px;background: yellow;">
+            <form class="" ation="categories.php" method="post">
+                <div class="card">
+                    <div class="card-header">
+                        <h1>Dodaj Kategorię</h1>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 <!-- FOOTER -->
 <footer class="bg-dark text-white">
     <div class="container">
