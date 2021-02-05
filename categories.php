@@ -1,3 +1,44 @@
+<?php
+require_once("Include/db.php");
+require_once("Include/Functions.php");
+require_once("Include/Sessions.php");
+if(isset($_POST["Submit"])){
+    $Category = $_POST["CategoryTitle"];
+    $Author = "Mariusz";
+    date_default_timezone_set("Europe/Warsaw");
+    $CurrentTime = time();
+    $DateTime = strftime("%d-%B-%Y %H:%M", $CurrentTime);
+
+    if(empty($Category)){
+        $_SESSION["ErrorMessage"] = "Wszystkie pola muszą być uzupełnione";
+        Redirect_to("Categories.php");
+    } elseif(strlen($Category)<4){
+    $_SESSION["ErrorMessage"] = "Podana nazwa jest za krótka (min 4 znaki)";
+    Redirect_to("Categories.php");
+    } elseif(strlen($Category)>25){
+        $_SESSION["ErrorMessage"] = "Podana nazwa jest za długa (max 25 znaków)";
+        Redirect_to("Categories.php");
+
+    }else{
+        $sql = "insert into category(name, author, created)";
+        $sql .= "values(:catname, :catauthor, :catcreated)";
+        $stmt = $ConnectingDB->prepare($sql);
+        $stmt->bindValue(':catname',$Category);
+        $stmt->bindValue(':catauthor',$Author);
+        $stmt->bindValue(':catcreated',$CurrentTime);
+        $Execute = $stmt->execute();
+
+        if($Execute){
+            $_SESSION["SuccessMessage"]="Kategoria " .$Category." została dodana";
+            Redirect_to("Categories.php");
+
+        }else{
+            $_SESSION["ErrorMessage"] = "Coś poszło nie tak, spróbuj ponownie.";
+            Redirect_to("Categories.php");
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +70,10 @@ include "Include/navbar.html";
 <section class="container py-2 mb-4">
     <div class="row">
         <div class="offset-lg-1 col-lg-10 " style="min-height:400px;">
+            <?php
+            echo ErrorMessage();
+            echo SuccessMessage();
+            ?>
             <form class="" ation="categories.php" method="post">
                 <div class="card bg-secondary text-light mb-3">
                     <div class="card-header">
@@ -37,14 +82,14 @@ include "Include/navbar.html";
                     <div class="card-body bg-dark">
                         <div class="form-group">
                             <label for="title"><span class="FieldInfo">Nowa kategoria</span></label>
-                            <input class="form-control" type="text" name="Title" id="title" placeholder="Nazwa kategorii" value="">
+                            <input class="form-control" type="text" name="CategoryTitle" id="title" placeholder="Nazwa kategorii" value="">
                         </div>
                         <div class="row">
                             <div class="col-lg-6 mb-2">
                                 <a href="index.php" class="btn btn-warning btn-block"><i class="fas fa-arrow-left"></i> Powrót</a>
                             </div>
                             <div class="col-lg-6 mb-2">
-                                    <button type="button" name="Submit" class="btn btn-success btn-block"><i class="fas fa-check"></i> Dodaj</button>
+                                    <button type="submit" name="Submit" class="btn btn-success btn-block"><i class="fas fa-check"></i> Dodaj</button>
                             </div>
                         </div>
                     </div>
