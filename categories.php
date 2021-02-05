@@ -11,45 +11,9 @@
 </head>
 <body>
 <!-- NAVBAR -->
-<div style="height:10px; background:#27aae1;"></div>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a href="#" class="navbar-brand"> MStrycharz</a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarcollapseCMS">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarcollapseCMS">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a href="MyProfile.php" class="nav-link"> <i class="fas fa-user text-success"></i> Mój profil</a>
-                </li>
-                <li class="nav-item">
-                    <a href="Dashboard.php" class="nav-link">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a href="Posts.php" class="nav-link">Posty</a>
-                </li>
-                <li class="nav-item">
-                    <a href="Categories.php" class="nav-link">Kategorie</a>
-                </li>
-                <li class="nav-item">
-                    <a href="Admins.php" class="nav-link">Administracja</a>
-                </li>
-                <li class="nav-item">
-                    <a href="Comments.php" class="nav-link">Komentarze</a>
-                </li>
-                <li class="nav-item">
-                    <a href="Blog.php?page=1" class="nav-link" target="_blank">Blog</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a href="Logout.php" class="nav-link text-danger">
-                    <i class="fas fa-user-times"></i> Logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div style="height:10px; background:#27aae1;"></div>
+<?php
+include "Include/navbar.html";
+?>
 <!-- NAVBAR END -->
 <!-- HEADER -->
 <header class="bg-dark text-white py-3">
@@ -63,15 +27,26 @@
 </header>
 <!-- HEADER END -->
 <section class="container py-2 mb-4">
-    <div class="row" style="min-height: 50px; background: red;">
-        <div class="offset-lg-1 col-lg-10" style="min-height: 50px;background: yellow;">
+    <div class="row">
+        <div class="offset-lg-1 col-lg-10 " style="min-height:400px;">
             <form class="" ation="categories.php" method="post">
-                <div class="card">
+                <div class="card bg-secondary text-light mb-3">
                     <div class="card-header">
                         <h1>Dodaj Kategorię</h1>
                     </div>
-                    <div class="card-body">
-
+                    <div class="card-body bg-dark">
+                        <div class="form-group">
+                            <label for="title"><span class="FieldInfo">Nowa kategoria</span></label>
+                            <input class="form-control" type="text" name="Title" id="title" placeholder="Nazwa kategorii" value="">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 mb-2">
+                                <a href="index.php" class="btn btn-warning btn-block"><i class="fas fa-arrow-left"></i> Powrót</a>
+                            </div>
+                            <div class="col-lg-6 mb-2">
+                                    <button type="button" name="Submit" class="btn btn-success btn-block"><i class="fas fa-check"></i> Dodaj</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -79,16 +54,9 @@
     </div>
 </section>
 <!-- FOOTER -->
-<footer class="bg-dark text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="lead text-center small">Strycharz Mariusz | 32839 | 2020 - <span id="year"></span> &copy; ----All right Reserved.</p>
-            </div>
-        </div>
-    </div>
-</footer>
-<div style="height:10px; background:#27aae1;"></div>
+<?php
+include "Include/footer.html";
+?>
 <!-- FOOTER END-->
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
