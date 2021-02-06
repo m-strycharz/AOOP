@@ -12,8 +12,8 @@ if(isset($_POST["Submit"])){
     if(empty($Category)){
         $_SESSION["ErrorMessage"] = "Wszystkie pola muszą być uzupełnione";
         Redirect_to("Categories.php");
-    } elseif(strlen($Category)<4){
-    $_SESSION["ErrorMessage"] = "Podana nazwa jest za krótka (min 4 znaki)";
+    } elseif(strlen($Category)<3){
+    $_SESSION["ErrorMessage"] = "Podana nazwa jest za krótka (min 3 znaki)";
     Redirect_to("Categories.php");
     } elseif(strlen($Category)>25){
         $_SESSION["ErrorMessage"] = "Podana nazwa jest za długa (max 25 znaków)";
@@ -48,7 +48,7 @@ if(isset($_POST["Submit"])){
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="Css/Styles.css">
-    <title>Document</title>
+    <title>Nowa kategoria</title>
 </head>
 <body>
 <!-- NAVBAR -->

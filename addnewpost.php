@@ -3,38 +3,48 @@ require_once("Include/db.php");
 require_once("Include/Functions.php");
 require_once("Include/Sessions.php");
 if(isset($_POST["Submit"])){
-    $Category = $_POST["CategoryTitle"];
+    $PostTitle = $_POST["PostTitle"];
+    $Category = $_POST["Category"];
+    $Image = $_FILES["Image"]["name"];
+    $Target = "Uploads/".basename($_FILES["Image"]["name"]);
+    $PostText = $_POST["PostDescription"];
     $Author = "Mariusz";
     date_default_timezone_set("Europe/Warsaw");
     $CurrentTime = time();
     $DateTime = strftime("%d-%B-%Y %H:%M", $CurrentTime);
 
-    if(empty($Category)){
+    if(empty($PostTitle)){
         $_SESSION["ErrorMessage"] = "Wszystkie pola muszą być uzupełnione";
-        Redirect_to("Categories.php");
-    } elseif(strlen($Category)<4){
-        $_SESSION["ErrorMessage"] = "Podana nazwa jest za krótka (min 4 znaki)";
-        Redirect_to("Categories.php");
-    } elseif(strlen($Category)>25){
-        $_SESSION["ErrorMessage"] = "Podana nazwa jest za długa (max 25 znaków)";
-        Redirect_to("Categories.php");
-
+        Redirect_to("addnewpost.php");
+    } elseif(strlen($PostTitle)<5){
+        $_SESSION["ErrorMessage"] = "Podana nazwa jest za krótka (min 5 znaki)";
+        Redirect_to("addnewpost.php");
+    } elseif(strlen($PostTitle)>50){
+        $_SESSION["ErrorMessage"] = "Podana nazwa jest za długa (max 50 znaków)";
+        Redirect_to("addnewpost.php");
+    } elseif(strlen($PostText)>999){
+        $_SESSION["ErrorMessage"] = "Podany tekst jest za długi (max 1000 znaków)";
+        Redirect_to("addnewpost.php");
     }else{
-        $sql = "insert into category(name, author, created)";
-        $sql .= "values(:catname, :catauthor, :catcreated)";
+        $sql = "insert into posts (datetime,title,category,author,image,post)";
+        $sql .= "values(:postTime, :posttitle, :postcategory, :postAuthor, :postImage, :postText)";
         $stmt = $ConnectingDB->prepare($sql);
-        $stmt->bindValue(':catname',$Category);
-        $stmt->bindValue(':catauthor',$Author);
-        $stmt->bindValue(':catcreated',$CurrentTime);
+        $stmt->bindValue(':postTime',$CurrentTime);
+        $stmt->bindValue(':posttitle',$PostTitle);
+        $stmt->bindValue(':postcategory',$Category);
+        $stmt->bindValue(':postAuthor',$Author);
+        $stmt->bindValue(':postImage',$Image);
+        $stmt->bindValue(':postText',$PostText);
         $Execute = $stmt->execute();
+        move_uploaded_file($_FILES["Image"]["tmp_name"],$Target);
 
         if($Execute){
-            $_SESSION["SuccessMessage"]="Kategoria " .$Category." została dodana";
-            Redirect_to("Categories.php");
+            $_SESSION["SuccessMessage"]="Wpis " .$PostTitle." został dodany";
+            Redirect_to("addnewpost.php");
 
         }else{
             $_SESSION["ErrorMessage"] = "Coś poszło nie tak, spróbuj ponownie.";
-            Redirect_to("Categories.php");
+            Redirect_to("addnewpost.php");
         }
     }
 }
@@ -48,7 +58,7 @@ if(isset($_POST["Submit"])){
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link rel="stylesheet" href="Css/Styles.css">
-        <title>Document</title>
+        <title>Nowy Wpis</title>
     </head>
     <body>
     <!-- NAVBAR -->
@@ -74,7 +84,7 @@ if(isset($_POST["Submit"])){
                 echo ErrorMessage();
                 echo SuccessMessage();
                 ?>
-                <form class="" ation="categories.php" method="post">
+                <form class="" ation="addnewpost.php" method="post" enctype="multipart/form-data">
                     <div class="card bg-secondary text-light mb-3">
                         <div class="card-header">
                             <h1>Dodaj Wpis</h1>
@@ -87,9 +97,16 @@ if(isset($_POST["Submit"])){
                             <div class="form-group">
                                 <label for="categoryName"><span class="FieldInfo">Kategoria</span></label>
                                 <select class="form-control" id="categoryName" name="Category">
-                                    <option value="">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
+                                    <?php
+                                    global $ConnectingDB;
+                                    $sql = "select id,name from category";
+                                    $stmt = $ConnectingDB->query($sql);
+                                    while ($DataRows = $stmt->fetch()){
+                                        $catId = $DataRows["id"];
+                                        $catName = $DataRows["name"];
+                                        echo "<option> ". $catName ." </option>";
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="form-group">
